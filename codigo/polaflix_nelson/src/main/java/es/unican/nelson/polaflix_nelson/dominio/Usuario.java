@@ -2,23 +2,46 @@ package es.unican.nelson.polaflix_nelson.dominio;
 import java.time.LocalDate;
 import java.util.*;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MapKey;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Usuario {
-    protected boolean tarifaPlana; //true es que el usuario tiene la cuota mensaul
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    private Long id;
+
+    protected boolean tarifaPlana; //true es que el usuario tiene la cuota mensual
     protected String nombreUsuario;
     protected String contrasenia;
+    @OneToMany
     protected ArrayList<Serie> empezadas;
+    @OneToMany
     protected ArrayList<Serie> pendientes;
+    @OneToMany
     protected ArrayList<Serie> terminadas;
-    protected Visualizacion[] visualizaciones;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    protected ArrayList<Visualizacion> visualizaciones;
+    @OneToOne
     protected CuentaBancaria cuentaBanco;
-    protected Factura[] facturas;
-    protected Map<Capitulo, Visualizacion> historialVisualizaciones;
-    protected Factura facturaActual;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    protected ArrayList<Factura> facturas;
+    @OneToMany
+    @MapKey(name = "titulo")
+    protected Map<Serie, CapituloID> CapituloMasAltoVisualizado;
+    //protected Factura facturaActual;
 
     public Usuario(String nombre) {
         this.nombreUsuario = nombre;
         this.tarifaPlana = false;
-        this.historialVisualizaciones = new HashMap<>();
+        this.CapituloMasAltoVisualizado = new HashMap<>();
     }
 
     public void activarTarifaPlana() {
@@ -30,23 +53,28 @@ public class Usuario {
     }
 
     public void verCapitulo(Capitulo capitulo) {
-        if (historialVisualizaciones.containsKey(capitulo)) {
-            System.out.println("Ya viste este capítulo.");
+        if (CapituloMasAltoVisualizado.containsKey(capitulo.temporada.serie)) {
+            System.out.println("Ya viste este capítulo, se vuelve a ver pero no se vuelve a cobrar");
             return;
         }
 
         double precio = 0.0;
         if (!tarifaPlana) {
-            precio = capitulo.temporada.serie.categoria.getPrecio();
+            //precio = capitulo.temporada.serie.categoria.getPrecio();
         }
 
+        //añado la visualizacion al array de visualizaciones
         Visualizacion nuevaVisualizacion = new Visualizacion(capitulo, precio);
-        historialVisualizaciones.put(capitulo, nuevaVisualizacion);
+        visualizaciones.add(nuevaVisualizacion);
+
+        //creo el nuevo objeto capituloID
+        CapituloID capituloID = new CapituloID();
+        CapituloMasAltoVisualizado.put(capitulo.temporada.serie, capituloID);
 
         System.out.println("Viendo capítulo: " + capitulo.getTitulo() +
                            " | Precio: " + precio);
         
-        facturaActual.items.add(nuevaVisualizacion);
+        //facturaActual.items.add(nuevaVisualizacion);
     }
 
     /**

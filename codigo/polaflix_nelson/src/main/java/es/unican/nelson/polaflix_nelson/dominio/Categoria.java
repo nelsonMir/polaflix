@@ -1,5 +1,8 @@
 package es.unican.nelson.polaflix_nelson.dominio;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Categoria {
 
     double precio;
