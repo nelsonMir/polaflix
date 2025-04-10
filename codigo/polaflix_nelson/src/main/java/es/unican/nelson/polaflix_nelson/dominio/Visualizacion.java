@@ -19,20 +19,18 @@ public class Visualizacion {
     double precio;
     @ManyToOne
     Usuario usuario;
-    Capitulo capitulo;
+    //Capitulo capitulo;
 
      public Visualizacion(Capitulo capitulo, double precio) {
         this.fecha = LocalDate.now();
         this.precio = precio;
-        this.capitulo = capitulo;
+        //this.capitulo = capitulo;
     }
 
     public double getPrecio() {
         return precio;
     }
 
-    public Capitulo getCapitulo() {
-        return capitulo;
-    }
+    
 
 }

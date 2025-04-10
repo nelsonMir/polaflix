@@ -34,14 +34,20 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     protected ArrayList<Factura> facturas;
     @OneToMany
-    @MapKey(name = "titulo")
-    protected Map<Serie, CapituloID> CapituloMasAltoVisualizado;
-    //protected Factura facturaActual;
+    @MapKey(name = "id")
+    protected Map<Serie, CapituloID> capituloMasAltoVisualizado;
+    @OneToOne
+    protected Factura facturaActual;
+
+    //necesito el constructor vacio para recuperar de la base de datos
+    protected Usuario(){
+
+    }
 
     public Usuario(String nombre) {
         this.nombreUsuario = nombre;
         this.tarifaPlana = false;
-        this.CapituloMasAltoVisualizado = new HashMap<>();
+        this.capituloMasAltoVisualizado = new HashMap<>();
     }
 
     public void activarTarifaPlana() {
@@ -53,7 +59,7 @@ public class Usuario {
     }
 
     public void verCapitulo(Capitulo capitulo) {
-        if (CapituloMasAltoVisualizado.containsKey(capitulo.temporada.serie)) {
+        if (capituloMasAltoVisualizado.containsKey(capitulo.temporada.serie)) {
             System.out.println("Ya viste este capítulo, se vuelve a ver pero no se vuelve a cobrar");
             return;
         }
@@ -69,12 +75,12 @@ public class Usuario {
 
         //creo el nuevo objeto capituloID
         CapituloID capituloID = new CapituloID();
-        CapituloMasAltoVisualizado.put(capitulo.temporada.serie, capituloID);
+        capituloMasAltoVisualizado.put(capitulo.temporada.serie, capituloID);
 
         System.out.println("Viendo capítulo: " + capitulo.getTitulo() +
                            " | Precio: " + precio);
         
-        //facturaActual.items.add(nuevaVisualizacion);
+        facturaActual.items.add(nuevaVisualizacion);
     }
 
     /**
