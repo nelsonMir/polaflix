@@ -75,6 +75,12 @@ public class Usuario {
         this.nombreUsuario = nombre;
         this.tarifaPlana = false;
         this.capituloMasAltoVisualizado = new HashMap<>();
+
+        empezadas = new ArrayList<>();
+        pendientes = new ArrayList<>();
+        terminadas = new ArrayList<>();
+        visualizaciones = new ArrayList<>();
+        facturas = new ArrayList<>();
     }
 
     public void activarTarifaPlana() {
@@ -93,7 +99,7 @@ public class Usuario {
 
         double precio = 0.0;
         if (!tarifaPlana) {
-            //precio = capitulo.temporada.serie.categoria.getPrecio();
+            precio = capitulo.temporada.serie.categoria.getPrecio();
         }
 
         //añado la visualizacion al array de visualizaciones
@@ -101,13 +107,20 @@ public class Usuario {
         visualizaciones.add(nuevaVisualizacion);
 
         //creo el nuevo objeto capituloID
-        CapituloID capituloID = new CapituloID();
+        CapituloID capituloID = new CapituloID(capitulo.getId());
         capituloMasAltoVisualizado.put(capitulo.temporada.serie, capituloID);
 
         System.out.println("Viendo capítulo: " + capitulo.getTitulo() +
                            " | Precio: " + precio);
         
-        facturaActual.items.add(nuevaVisualizacion);
+        if(facturaActual != null){
+            facturaActual.items.add(nuevaVisualizacion);
+        }
+        else {
+
+            Factura factura = new Factura(this);
+            facturaActual = factura;
+        }
     }
 
     /**

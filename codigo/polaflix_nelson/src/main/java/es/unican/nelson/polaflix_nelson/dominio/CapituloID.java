@@ -16,4 +16,11 @@ public class CapituloID {
     @OneToOne
     protected Serie serie;
 
+    public CapituloID(){}
+
+    public CapituloID(long id){
+
+        this.id = id;
+    }
+
 }

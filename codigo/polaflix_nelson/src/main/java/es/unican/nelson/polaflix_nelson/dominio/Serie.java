@@ -22,7 +22,8 @@ public class Serie {
     @JsonProperty("titulo")
     String titulo;
 
-    //Categoria categoria;
+    Categoria categoria;
+
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
     @JsonProperty("temporada")
     @JsonManagedReference  //esto para evitar bucles con las referencias en doble direccion
@@ -42,12 +43,36 @@ public class Serie {
         temporadas.add(temporada);
     }
 
-    /*public Categoria getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }*/
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public List<Temporada> getTemporadas() {
+        return temporadas;
+    }
+
+    public void setTemporadas(List<Temporada> temporadas) {
+        this.temporadas = temporadas;
+    }
 
 }

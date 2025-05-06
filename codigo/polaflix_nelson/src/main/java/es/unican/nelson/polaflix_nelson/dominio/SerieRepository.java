@@ -9,5 +9,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long>{
 
     public Optional<Serie> getSerieById (Long id);
 
+    public Optional<Serie> getSerieByTitulo(String titulo);
+
     public List<Serie> findAll();
 }

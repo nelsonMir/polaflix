@@ -35,6 +35,7 @@ public class Factura {
 
     public Factura(Usuario usuario){
         this.usuario = usuario;
+        items = new ArrayList<>();
     }
 
     public void anhadirItem(Visualizacion visualizacion){
