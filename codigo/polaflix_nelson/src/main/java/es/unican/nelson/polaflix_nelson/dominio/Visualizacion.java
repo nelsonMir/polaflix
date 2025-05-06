@@ -2,6 +2,9 @@ package es.unican.nelson.polaflix_nelson.dominio;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,10 +17,18 @@ public class Visualizacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("fecha")
     LocalDate fecha;
+
+    @JsonProperty("precio")
     double precio;
+
     @ManyToOne
+    @JsonProperty("usuario")
+    @JsonBackReference
     Usuario usuario;
     //Capitulo capitulo;
 

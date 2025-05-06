@@ -2,6 +2,10 @@ package es.unican.nelson.polaflix_nelson.dominio;
 import java.time.LocalDate;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,27 +20,50 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("tarifaPlana")
     protected boolean tarifaPlana; //true es que el usuario tiene la cuota mensual
+    
+    @JsonProperty("nombre")
     protected String nombreUsuario;
+
+    @JsonProperty("contrasenia")
     protected String contrasenia;
+
     @OneToMany
-    protected ArrayList<Serie> empezadas;
+    @JsonProperty("series empezadas")
+    protected List<Serie> empezadas;
+
     @OneToMany
-    protected ArrayList<Serie> pendientes;
+    @JsonProperty("series pendientes")
+    protected List<Serie> pendientes;
+
     @OneToMany
-    protected ArrayList<Serie> terminadas;
+    @JsonProperty("series terminadas")
+    protected List<Serie> terminadas;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    protected ArrayList<Visualizacion> visualizaciones;
+    @JsonProperty("visualizaciones")
+    @JsonManagedReference
+    protected List<Visualizacion> visualizaciones;
+    
     @OneToOne
+    @JsonProperty("cuenta de banco")
     protected CuentaBancaria cuentaBanco;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    protected ArrayList<Factura> facturas;
+    @JsonProperty("facturas")
+    @JsonBackReference
+    protected List<Factura> facturas;
+
     @OneToMany
     @MapKey(name = "id")
     protected Map<Serie, CapituloID> capituloMasAltoVisualizado;
+    
     @OneToOne
+    @JsonProperty("factura actual")
     protected Factura facturaActual;
 
     //necesito el constructor vacio para recuperar de la base de datos

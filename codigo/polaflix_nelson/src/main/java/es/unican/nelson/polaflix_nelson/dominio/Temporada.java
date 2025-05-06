@@ -11,6 +11,9 @@ import jakarta.persistence.OneToMany;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Temporada {
@@ -21,9 +24,23 @@ public class Temporada {
 
     int numeroTemporada;
     @ManyToOne
+    @JsonBackReference
     Serie serie;
     @OneToMany(mappedBy = "temporada", cascade = CascadeType.ALL)
-    List<Capitulo> Capitulos;
+    List<Capitulo> capitulos;
+
+    public Temporada(){}
+
+    public Temporada(int numeroTemporada, Serie serie){
+        this.numeroTemporada = numeroTemporada;
+        this.serie = serie;
+        capitulos = new ArrayList<>();
+    }
+
+    //anhadir capitulos lo hago con un metodo y no el constructuro
+    public void anhandirCapitulo(Capitulo capitulo){
+        capitulos.add(capitulo);
+    }
 
     public int getNumeroTemporada() {
         return numeroTemporada;

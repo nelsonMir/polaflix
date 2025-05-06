@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VisualizacionRepository extends JpaRepository<Visualizacion, Long>{
 
-    public Optional<Factura> getVisualizacionById (Long id);
+    public Optional<Visualizacion> getVisualizacionById (Long id);
 }

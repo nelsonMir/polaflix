@@ -19,6 +19,18 @@ public class Capitulo {
     int numeroCapitulo;
     @ManyToOne
     Temporada temporada;
+
+    public Capitulo(){}
+
+    public Capitulo(boolean ultimoCapitulo, String titulo, String descripcion, int numeroCapitulo, Temporada temporada){
+
+        this.ultimoCapitulo = ultimoCapitulo;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.numeroCapitulo = numeroCapitulo;
+        this.temporada = temporada;
+    }
+
     public boolean isUltimoCapitulo() {
         return ultimoCapitulo;
     }

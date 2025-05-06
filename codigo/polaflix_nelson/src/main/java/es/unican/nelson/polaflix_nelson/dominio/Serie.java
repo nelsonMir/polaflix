@@ -9,17 +9,38 @@ import jakarta.persistence.OneToMany;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Serie {
         @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("titulo")
     String titulo;
 
     //Categoria categoria;
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
+    @JsonProperty("temporada")
+    @JsonManagedReference  //esto para evitar bucles con las referencias en doble direccion
     List<Temporada> temporadas;
+
+    public Serie(){
+
+    }
+
+    public Serie(String titulo){
+        this.titulo = titulo;
+        //debo inicializar la lista de temporadas porque sino sera nula
+        temporadas = new ArrayList<>();
+    }
+
+    public void anhandirTemporada(Temporada temporada){
+        temporadas.add(temporada);
+    }
 
     /*public Categoria getCategoria() {
         return categoria;
