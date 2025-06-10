@@ -1,5 +1,6 @@
 package es.unican.nelson.polaflix_nelson.dominio;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -28,19 +29,29 @@ public class Factura {
     @JsonProperty("usuario")
     protected Usuario usuario;
     
+    @JsonProperty("fecha")
+    protected LocalDate fecha;
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
     public Factura(){
 
     }
 
-    public Factura(Usuario usuario){
+    public Factura(Usuario usuario, LocalDate fecha){
         this.usuario = usuario;
         items = new ArrayList<>();
+
+        this.fecha = fecha;
+
     }
 
-    public void anhadirItem(Visualizacion visualizacion){
-        items.add(visualizacion);
-    }
 
     public Long getId() {
         return id;

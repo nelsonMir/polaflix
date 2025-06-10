@@ -29,6 +29,9 @@ public class Serie {
     @JsonManagedReference  //esto para evitar bucles con las referencias en doble direccion
     List<Temporada> temporadas;
 
+    @JsonProperty("sinopsis")
+    String sinopsis;
+
     public Serie(){
 
     }
@@ -73,6 +76,31 @@ public class Serie {
 
     public void setTemporadas(List<Temporada> temporadas) {
         this.temporadas = temporadas;
+    }
+
+    public String getSinopsis() {
+        return sinopsis;
+    }
+
+    public void setSinopsis(String sinopsis) {
+        this.sinopsis = sinopsis;
+    }
+
+    public Capitulo getCapituloById(long id){
+
+        //me recorro todas las temporadasy todos los capitulos para buscar uno que coincida con el id
+        for(Temporada t : temporadas){
+
+            for(Capitulo c : t.getCapitulos()){
+
+                if(c.getId() == id){
+
+                    return c;
+                }
+            }
+        }
+
+        return null;
     }
 
 }

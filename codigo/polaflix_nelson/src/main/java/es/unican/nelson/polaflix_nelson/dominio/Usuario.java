@@ -92,35 +92,98 @@ public class Usuario {
     }
 
     public void verCapitulo(Capitulo capitulo) {
-        if (capituloMasAltoVisualizado.containsKey(capitulo.temporada.serie)) {
-            System.out.println("Ya viste este capítulo, se vuelve a ver pero no se vuelve a cobrar");
-            return;
+
+        //reviso si ya se ha visto el capitulo 
+        Serie serie = capitulo.getTemporada().getSerie();
+
+        //obtengo el ultimo capitulo visualizado de esa serie
+        long id_ultimo_capitulo = capituloMasAltoVisualizado.get(serie).getId();
+        //ahora obtengo el capitulo en si
+        Capitulo c = serie.getCapituloById(id_ultimo_capitulo);
+        //ahora comparo
+        if(c.getTemporada().getNumeroTemporada() < capitulo.getTemporada().getNumeroTemporada()){
+            
+            //como la temporada es mayor, pues hay que sustituir
+            CapituloID capitulo_id = new CapituloID(capitulo.getId());
+            capituloMasAltoVisualizado.put(serie, capitulo_id);
+
+            
+        } //ahora comparamos el caso de que el numero de temporada sea igual
+        else if(c.getTemporada().getNumeroTemporada() == capitulo.getTemporada().getNumeroTemporada()){
+
+            //veo si el nuevo capitulo es mayor al mayor que se habia visto al momento
+            if(c.getNumeroCapitulo() < capitulo.getNumeroCapitulo()){
+                CapituloID capitulo_id = new CapituloID(capitulo.getId());
+                capituloMasAltoVisualizado.put(serie, capitulo_id);
+            }
         }
+
+
+        
+        //tengo que recorrer toddas las facturas para que si un capitulo que vi el mes pasado 
+        //no me lo vuelva a cobrar si lo veo en la factura del siguiente mes
+        for (Factura factura : this.facturas){
+
+            for(Visualizacion visualizacion : factura.getItems()){
+
+                //veo si coincide nombre de serie
+                if(visualizacion.getNombre_serie().equals(serie.getTitulo())){
+                    //veo si coincide el num temporada
+                    if(visualizacion.getNum_temporada() == capitulo.getTemporada().getNumeroTemporada()){
+
+                        if(visualizacion.getNum_capitulo() == capitulo.getNumeroCapitulo()){
+                            
+                            //si todo esto coincide significa que el capitulo ya fue visto en alguna factura pasada
+                            //asi que NO hay que hacer nada
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        //mover la serie a la lista que corresponda
+        if(pendientes.contains(serie)){
+            pendientes.remove(serie);
+            //la anhado a empezadas
+            empezadas.add(serie);
+        }
+
+        //si el capitulo es el ultimo, pues muevo de empezadas a terminadas
+        if(capitulo.ultimoCapitulo){
+
+            //hay que poner este if para no eliminar de empezadas 2 o mas veces una serie que ya se ha visto su ultimo capitulo
+            if(empezadas.contains(serie)){
+                empezadas.remove(serie);
+                terminadas.add(serie);
+            }
+        }
+
+        //obtener factura actual o generar una nueva
 
         double precio = 0.0;
         if (!tarifaPlana) {
             precio = capitulo.temporada.serie.categoria.getPrecio();
         }
 
-        //añado la visualizacion al array de visualizaciones
-        Visualizacion nuevaVisualizacion = new Visualizacion(capitulo, precio);
+        LocalDate fechaActual = LocalDate.now();
+
+        //veo si la fecha actual no coincide con el mes o con el anhio, pues cambia la factual actual y debo crear una nueva
+        if(facturaActual.getFecha().getYear() != fechaActual.getYear() || facturaActual.getFecha().getMonth() != fechaActual.getMonth()){
+
+            //creo una nueva factura
+            Factura factura_nueva = new Factura(this, fechaActual);
+            //la anhado a la lista de facturas
+            facturas.add(factura_nueva);
+            //actualizo la factura actual
+            facturaActual = factura_nueva;
+        }
+
+        //generar el nuevo item de la factura
+        Visualizacion nuevaVisualizacion = new Visualizacion(capitulo, precio, capitulo.getNumeroCapitulo(), capitulo.getTemporada().getNumeroTemporada(), capitulo.getTemporada().getSerie().getTitulo());
         visualizaciones.add(nuevaVisualizacion);
 
-        //creo el nuevo objeto capituloID
-        CapituloID capituloID = new CapituloID(capitulo.getId());
-        capituloMasAltoVisualizado.put(capitulo.temporada.serie, capituloID);
-
-        System.out.println("Viendo capítulo: " + capitulo.getTitulo() +
-                           " | Precio: " + precio);
-        
-        if(facturaActual != null){
-            facturaActual.items.add(nuevaVisualizacion);
-        }
-        else {
-
-            Factura factura = new Factura(this);
-            facturaActual = factura;
-        }
+        facturaActual.getItems().add(nuevaVisualizacion);
     }
 
     /**

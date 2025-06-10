@@ -22,5 +22,17 @@ public class CapituloID {
 
         this.id = id;
     }
+    
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
+    public long getId() {
+        return id;
+    }
 
 }
