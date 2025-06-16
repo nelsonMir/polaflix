@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import es.unican.nelson.polaflix_nelson.dominio.Capitulo;
 import es.unican.nelson.polaflix_nelson.dominio.Serie;
-import es.unican.nelson.polaflix_nelson.dominio.SerieRepository;
 import es.unican.nelson.polaflix_nelson.dominio.Temporada;
 import es.unican.nelson.polaflix_nelson.dominio.Usuario;
-import es.unican.nelson.polaflix_nelson.dominio.UsuarioRepository;
+import es.unican.nelson.polaflix_nelson.repositories.SerieRepository;
+import es.unican.nelson.polaflix_nelson.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 public class CapituloService {
@@ -32,7 +32,7 @@ public class CapituloService {
             if(t.getNumeroTemporada() == temporadaNum){
                 for(Capitulo c: t.getCapitulos()){
                     if(c.getNumeroCapitulo() == capituloNum){
-                        usuarioUnico.verCapitulo(c);
+                        //usuarioUnico.verCapitulo(c);
                         retorno = true;
                         break;
                     }

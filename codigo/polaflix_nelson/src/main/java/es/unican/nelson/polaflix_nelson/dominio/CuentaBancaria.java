@@ -10,7 +10,14 @@ import jakarta.persistence.Id;
 public class CuentaBancaria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     protected long id;
     protected String iban;
+
+    public CuentaBancaria(String iban) {
+        this.iban = iban;
+    }
+
+    public CuentaBancaria(){}
+    
 }

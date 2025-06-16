@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.unican.nelson.polaflix_nelson.dominio.Factura;
-import es.unican.nelson.polaflix_nelson.dominio.FacturaRepository;
 import es.unican.nelson.polaflix_nelson.dominio.Serie;
+import es.unican.nelson.polaflix_nelson.repositories.FacturaRepository;
 
 @RestController
 public class FacturasController {

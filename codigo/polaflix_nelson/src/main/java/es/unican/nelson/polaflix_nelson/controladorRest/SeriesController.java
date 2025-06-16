@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.unican.nelson.polaflix_nelson.dominio.Serie;
-import es.unican.nelson.polaflix_nelson.dominio.SerieRepository;
+import es.unican.nelson.polaflix_nelson.repositories.SerieRepository;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +46,7 @@ public class SeriesController {
     //devuelvo todas las series
     @GetMapping("series")
     //hoy devuelvo una lista de series
-    public ResponseEntity<List<Serie>> getTodas() {
+    public ResponseEntity<List<Serie>> getSeries() {
         
         List<Serie> series = sr.findAll();
         ResponseEntity<List<Serie>> respuesta;

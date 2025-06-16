@@ -1,14 +1,12 @@
 package es.unican.nelson.polaflix_nelson.controladorRest;
 
 import org.springframework.web.bind.annotation.RestController;
-
-import es.unican.nelson.polaflix_nelson.dominio.SerieRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import es.unican.nelson.polaflix_nelson.repositories.SerieRepository;
 import es.unican.nelson.polaflix_nelson.service.CapituloService;
 
 

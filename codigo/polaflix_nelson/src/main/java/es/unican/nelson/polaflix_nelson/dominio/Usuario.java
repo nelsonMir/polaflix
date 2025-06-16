@@ -19,7 +19,7 @@ import jakarta.persistence.OneToOne;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("id")
     private Long id;
 
@@ -58,11 +58,11 @@ public class Usuario {
     @JsonBackReference
     protected List<Factura> facturas;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapKey(name = "id")
     protected Map<Serie, CapituloID> capituloMasAltoVisualizado;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("factura actual")
     protected Factura facturaActual;
 
@@ -91,12 +91,100 @@ public class Usuario {
         this.tarifaPlana = false;
     }
 
-    public void verCapitulo(Capitulo capitulo) {
+    
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public List<Serie> getEmpezadas() {
+        return empezadas;
+    }
+
+    public void setEmpezadas(List<Serie> empezadas) {
+        this.empezadas = empezadas;
+    }
+
+    public List<Serie> getPendientes() {
+        return pendientes;
+    }
+
+    public void setPendientes(List<Serie> pendientes) {
+        this.pendientes = pendientes;
+    }
+
+    public List<Serie> getTerminadas() {
+        return terminadas;
+    }
+
+    public void setTerminadas(List<Serie> terminadas) {
+        this.terminadas = terminadas;
+    }
+
+    public List<Visualizacion> getVisualizaciones() {
+        return visualizaciones;
+    }
+
+    public void setVisualizaciones(List<Visualizacion> visualizaciones) {
+        this.visualizaciones = visualizaciones;
+    }
+
+    public CuentaBancaria getCuentaBanco() {
+        return cuentaBanco;
+    }
+
+    public void setCuentaBanco(CuentaBancaria cuentaBanco) {
+        this.cuentaBanco = cuentaBanco;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public Map<Serie, CapituloID> getCapituloMasAltoVisualizado() {
+        return capituloMasAltoVisualizado;
+    }
+
+    public void setCapituloMasAltoVisualizado(Map<Serie, CapituloID> capituloMasAltoVisualizado) {
+        this.capituloMasAltoVisualizado = capituloMasAltoVisualizado;
+    }
+
+    public Factura getFacturaActual() {
+        return facturaActual;
+    }
+
+    public void setFacturaActual(Factura facturaActual) {
+        this.facturaActual = facturaActual;
+    }
+
+    public void verCapitulo(Capitulo capitulo, CapituloID capitulo_id) {
 
         //reviso si ya se ha visto el capitulo 
         Serie serie = capitulo.getTemporada().getSerie();
 
+        //CapituloID capitulo_id;
+
         //obtengo el ultimo capitulo visualizado de esa serie
+        if(capituloMasAltoVisualizado.get(serie) == null){
+            //capitulo_id = new CapituloID(capitulo.getId());
+            capituloMasAltoVisualizado.put(serie, capitulo_id);
+        }
+
         long id_ultimo_capitulo = capituloMasAltoVisualizado.get(serie).getId();
         //ahora obtengo el capitulo en si
         Capitulo c = serie.getCapituloById(id_ultimo_capitulo);
@@ -104,7 +192,7 @@ public class Usuario {
         if(c.getTemporada().getNumeroTemporada() < capitulo.getTemporada().getNumeroTemporada()){
             
             //como la temporada es mayor, pues hay que sustituir
-            CapituloID capitulo_id = new CapituloID(capitulo.getId());
+            //capitulo_id = new CapituloID(capitulo.getId());
             capituloMasAltoVisualizado.put(serie, capitulo_id);
 
             
@@ -113,7 +201,7 @@ public class Usuario {
 
             //veo si el nuevo capitulo es mayor al mayor que se habia visto al momento
             if(c.getNumeroCapitulo() < capitulo.getNumeroCapitulo()){
-                CapituloID capitulo_id = new CapituloID(capitulo.getId());
+                //capitulo_id = new CapituloID(capitulo.getId());
                 capituloMasAltoVisualizado.put(serie, capitulo_id);
             }
         }
@@ -169,7 +257,7 @@ public class Usuario {
         LocalDate fechaActual = LocalDate.now();
 
         //veo si la fecha actual no coincide con el mes o con el anhio, pues cambia la factual actual y debo crear una nueva
-        if(facturaActual.getFecha().getYear() != fechaActual.getYear() || facturaActual.getFecha().getMonth() != fechaActual.getMonth()){
+        if(facturaActual == null || facturaActual.getFecha().getYear() != fechaActual.getYear() || facturaActual.getFecha().getMonth() != fechaActual.getMonth()){
 
             //creo una nueva factura
             Factura factura_nueva = new Factura(this, fechaActual);

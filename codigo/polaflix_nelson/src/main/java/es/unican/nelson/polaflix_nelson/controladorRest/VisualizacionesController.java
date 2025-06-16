@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.unican.nelson.polaflix_nelson.dominio.Serie;
-import es.unican.nelson.polaflix_nelson.dominio.SerieRepository;
 import es.unican.nelson.polaflix_nelson.dominio.Visualizacion;
-import es.unican.nelson.polaflix_nelson.dominio.VisualizacionRepository;
+import es.unican.nelson.polaflix_nelson.repositories.SerieRepository;
+import es.unican.nelson.polaflix_nelson.repositories.VisualizacionRepository;
 
 @RestController
 public class VisualizacionesController {

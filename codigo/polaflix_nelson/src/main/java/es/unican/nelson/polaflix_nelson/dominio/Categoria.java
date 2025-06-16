@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 public class Categoria {
 
     double precio;
+    String tipo;
     public double getPrecio() {
         return precio;
     }
@@ -18,5 +19,12 @@ public class Categoria {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    String tipo;
+    public Categoria(double precio, String tipo) {
+        this.precio = precio;
+        this.tipo = tipo;
+    }
+
+    public Categoria(){}
+    
+    
 }

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class Temporada {
 
         @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     private Long id;
 
     int numeroTemporada;

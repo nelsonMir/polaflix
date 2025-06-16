@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 public class Factura {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("id")
     private Long id;
 

@@ -1,6 +1,8 @@
 package es.unican.nelson.polaflix_nelson.dominio;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,13 +17,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class Serie {
         @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("id")
     private Long id;
 
     @JsonProperty("titulo")
     String titulo;
 
+    @Embedded
+    @JsonProperty("categoria")
     Categoria categoria;
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
@@ -32,12 +36,24 @@ public class Serie {
     @JsonProperty("sinopsis")
     String sinopsis;
 
+    //se usa el elementColelction ncunado sse mapea un tipo embeebido
+    @ElementCollection
+    @JsonProperty("creadores")
+    protected List<Artista> creadores;
+
+    @ElementCollection
+    @JsonProperty("actores")
+    protected List<Artista> actores;
+    
+
     public Serie(){
 
     }
 
-    public Serie(String titulo){
+    public Serie(String titulo, Categoria categoria, String sinopsis){
         this.titulo = titulo;
+        this.categoria = categoria;
+        this.sinopsis = sinopsis;
         //debo inicializar la lista de temporadas porque sino sera nula
         temporadas = new ArrayList<>();
     }

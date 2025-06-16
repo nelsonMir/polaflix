@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 public class Visualizacion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incremento en BD con h2
+    @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("id")
     private Long id;
 
@@ -65,8 +65,6 @@ public class Visualizacion {
     }
 
 
-    //Capitulo capitulo;
-
      public Visualizacion(Capitulo capitulo, double precio, int num_capitulo, int num_temporada, String nombre_serie) {
         this.fecha = LocalDate.now();
         this.precio = precio;
@@ -74,6 +72,8 @@ public class Visualizacion {
         this.num_temporada = num_temporada;
         this.nombre_serie = nombre_serie;
     }
+
+    public Visualizacion(){}
 
     public double getPrecio() {
         return precio;
