@@ -13,36 +13,46 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 
 @Entity
 public class Serie {
         @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
-    @JsonProperty("id")
+    @JsonProperty("idSerie")
+    @JsonView({Views.VistaSerie.class})
     private Long id;
 
     @JsonProperty("titulo")
+    @JsonView({Views.VistaSerie.class})
     String titulo;
 
     @Embedded
     @JsonProperty("categoria")
+    @JsonView({Views.VistaSerie.class})
     Categoria categoria;
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
     @JsonProperty("temporada")
     @JsonManagedReference  //esto para evitar bucles con las referencias en doble direccion
+    @JsonView({Views.VistaSerie.class})
     List<Temporada> temporadas;
 
     @JsonProperty("sinopsis")
+    @JsonView({Views.VistaSerie.class})
     String sinopsis;
 
     //se usa el elementColelction ncunado sse mapea un tipo embeebido
     @ElementCollection
     @JsonProperty("creadores")
+    @JsonView({Views.VistaSerie.class})
     protected List<Artista> creadores;
 
     @ElementCollection
     @JsonProperty("actores")
+    @JsonView({Views.VistaSerie.class})
     protected List<Artista> actores;
     
 

@@ -5,7 +5,9 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,50 +22,62 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
-    @JsonProperty("id")
+    @JsonProperty("idUsuario")
+    @JsonView({Views.VistaUsuario.class, Views.VistaFactura.class})
     private Long id;
 
     @JsonProperty("tarifaPlana")
+    @JsonView({Views.VistaUsuario.class})
     protected boolean tarifaPlana; //true es que el usuario tiene la cuota mensual
     
     @JsonProperty("nombre")
+    @JsonView({Views.VistaUsuario.class, Views.VistaFactura.class})
     protected String nombreUsuario;
 
     @JsonProperty("contrasenia")
+    @JsonView({Views.VistaUsuario.class})
     protected String contrasenia;
 
     @OneToMany
     @JsonProperty("series empezadas")
+    @JsonView({Views.VistaUsuario.class})
     protected List<Serie> empezadas;
 
     @OneToMany
     @JsonProperty("series pendientes")
+    @JsonView({Views.VistaUsuario.class})
     protected List<Serie> pendientes;
 
     @OneToMany
     @JsonProperty("series terminadas")
+    @JsonView({Views.VistaUsuario.class})
     protected List<Serie> terminadas;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonProperty("visualizaciones")
     @JsonManagedReference
+    @JsonView({Views.VistaUsuario.class})
     protected List<Visualizacion> visualizaciones;
     
     @OneToOne
     @JsonProperty("cuenta de banco")
+    @JsonView({Views.VistaUsuario.class})
     protected CuentaBancaria cuentaBanco;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonProperty("facturas")
     @JsonBackReference
+    @JsonView({Views.VistaUsuario.class})
     protected List<Factura> facturas;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapKey(name = "id")
+    @JsonView({Views.VistaUsuario.class})
     protected Map<Serie, CapituloID> capituloMasAltoVisualizado;
     
     @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("factura actual")
+    @JsonView({Views.VistaUsuario.class})
     protected Factura facturaActual;
 
     //necesito el constructor vacio para recuperar de la base de datos

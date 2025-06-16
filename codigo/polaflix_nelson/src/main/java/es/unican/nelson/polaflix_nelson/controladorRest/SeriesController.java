@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import es.unican.nelson.polaflix_nelson.dominio.Serie;
 import es.unican.nelson.polaflix_nelson.repositories.SerieRepository;
 
@@ -28,6 +30,7 @@ public class SeriesController {
 
     //devuelvo todos los campos de una serie con ese id
     @GetMapping("series/{id}")
+    @JsonView({Views.VistaSerie.class})
     public ResponseEntity<Serie> getSerie(@PathVariable("id") Long idSerie) {
         //ahora recupero primero una serie
         Optional<Serie> s = sr.getSerieById(idSerie);
@@ -46,6 +49,7 @@ public class SeriesController {
     //devuelvo todas las series
     @GetMapping("series")
     //hoy devuelvo una lista de series
+    @JsonView({Views.VistaSerie.class})
     public ResponseEntity<List<Serie>> getSeries() {
         
         List<Serie> series = sr.findAll();

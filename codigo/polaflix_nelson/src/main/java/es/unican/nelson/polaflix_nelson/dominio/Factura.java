@@ -5,7 +5,9 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,18 +20,23 @@ public class Factura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
-    @JsonProperty("id")
+    @JsonProperty("idFactura")
+    @JsonView({Views.VistaFactura.class})
     private Long id;
 
     @OneToMany
     @JsonManagedReference
+    @JsonProperty("itemsFactura")
+    @JsonView({Views.VistaFactura.class})
     protected List<Visualizacion> items;
 
     @ManyToOne
     @JsonProperty("usuario")
+    @JsonView({Views.VistaFactura.class})
     protected Usuario usuario;
     
     @JsonProperty("fecha")
+    @JsonView({Views.VistaFactura.class})
     protected LocalDate fecha;
 
     public LocalDate getFecha() {

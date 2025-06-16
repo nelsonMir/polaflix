@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,13 +19,16 @@ public class Visualizacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
-    @JsonProperty("id")
+    @JsonProperty("idVisualizacion")
+    @JsonView({Views.VistaFactura.class})
     private Long id;
 
-    @JsonProperty("fecha")
+    @JsonProperty("fechaVisualizacion")
+    @JsonView({Views.VistaFactura.class})
     LocalDate fecha;
 
     @JsonProperty("precio")
+    @JsonView({Views.VistaFactura.class})
     double precio;
 
      @ManyToOne
@@ -31,13 +36,16 @@ public class Visualizacion {
     @JsonBackReference
     Usuario usuario;
 
-    @JsonProperty("num_capitulo")
+    @JsonProperty("numCapitulo")
+    @JsonView({Views.VistaFactura.class})
     int num_capitulo;
 
     @JsonProperty("temporada")
+    @JsonView({Views.VistaFactura.class})
     int num_temporada;
 
-    @JsonProperty("nombre_Serie")
+    @JsonProperty("nombreSerie")
+    @JsonView({Views.VistaFactura.class})
     String nombre_serie;
 
     public int getNum_capitulo() {

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import es.unican.nelson.polaflix_nelson.dominio.*;
 import es.unican.nelson.polaflix_nelson.repositories.CapituloRepository;
 import es.unican.nelson.polaflix_nelson.repositories.FacturaRepository;
@@ -41,6 +43,7 @@ public class UsuariosController {
 
      //devuelvo un usuario
     @GetMapping(value="usuarios", params="nombreUsuario")
+    @JsonView({Views.VistaUsuario.class})
     @Transactional
     public ResponseEntity<Usuario> getUsuario(@RequestParam("nombreUsuario") String nombre){
         
@@ -92,7 +95,7 @@ public class UsuariosController {
         
     }
     
-    //anhadir una serie a pendientes
+    //ver un capitulo
     @PutMapping("usuarios/{id-usuario}/verCapitulo/{id-capitulo}")
     @Transactional //abre una transaccion para la BD
     public ResponseEntity<Map<String, String>> verCapitulo(@PathVariable("id-usuario") Long idUsuario, @PathVariable("id-capitulo") Long idCapitulo){
@@ -130,6 +133,7 @@ public class UsuariosController {
 
      //recuperar las facturas del usuario
     @GetMapping("usuarios/{id-usuario}/facturas")
+    @JsonView({Views.VistaFactura.class})
     @Transactional //abre una transaccion para la BD
     public ResponseEntity <?> getFacturas(@PathVariable("id-usuario") Long idUsuario){
         //ahora recupero primero un usuario

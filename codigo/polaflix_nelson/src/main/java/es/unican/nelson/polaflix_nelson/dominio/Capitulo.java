@@ -1,5 +1,9 @@
 package es.unican.nelson.polaflix_nelson.dominio;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,12 +15,26 @@ public class Capitulo {
 
         @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
+    @JsonProperty("idCapitulo")
+    @JsonView({Views.VistaSerie.class})
     private Long id;
     
+    @JsonProperty("ultimoCapitulo")
+    @JsonView({Views.VistaSerie.class})
     boolean ultimoCapitulo;
+
+    @JsonProperty("titulo")
+    @JsonView({Views.VistaSerie.class})
     String titulo;
+
+    @JsonProperty("descripcion")
+    @JsonView({Views.VistaSerie.class})
     String descripcion;
+
+    @JsonProperty("numeroCapitulo")
+    @JsonView({Views.VistaSerie.class})
     int numeroCapitulo;
+
     @ManyToOne
     Temporada temporada;
 

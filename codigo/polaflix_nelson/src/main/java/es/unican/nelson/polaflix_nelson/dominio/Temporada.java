@@ -13,6 +13,10 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 
 
 @Entity
@@ -20,13 +24,22 @@ public class Temporada {
 
         @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
+    @JsonProperty("idTemporada")
+    @JsonView({Views.VistaSerie.class})
     private Long id;
 
+    @JsonProperty("num-temporada")
+    @JsonView({Views.VistaSerie.class})
     int numeroTemporada;
+    
     @ManyToOne
     @JsonBackReference
+    @JsonProperty("serie")
     Serie serie;
+
     @OneToMany(mappedBy = "temporada", cascade = CascadeType.ALL)
+    @JsonProperty("capitulos")
+    @JsonView({Views.VistaSerie.class})
     List<Capitulo> capitulos;
 
     public Temporada(){}
