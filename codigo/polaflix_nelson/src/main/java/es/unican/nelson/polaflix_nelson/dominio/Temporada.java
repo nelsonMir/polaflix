@@ -25,11 +25,11 @@ public class Temporada {
         @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("idTemporada")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     private Long id;
 
     @JsonProperty("num-temporada")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     int numeroTemporada;
     
     @ManyToOne
@@ -39,7 +39,7 @@ public class Temporada {
 
     @OneToMany(mappedBy = "temporada", cascade = CascadeType.ALL)
     @JsonProperty("capitulos")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     List<Capitulo> capitulos;
 
     public Temporada(){}

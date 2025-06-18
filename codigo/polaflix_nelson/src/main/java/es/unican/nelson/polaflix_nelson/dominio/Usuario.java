@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import es.unican.nelson.polaflix_nelson.controladorRest.Views;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +44,7 @@ public class Usuario {
     @JsonView({Views.VistaUsuario.class})
     protected List<Serie> empezadas;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonProperty("series pendientes")
     @JsonView({Views.VistaUsuario.class})
     protected List<Serie> pendientes;

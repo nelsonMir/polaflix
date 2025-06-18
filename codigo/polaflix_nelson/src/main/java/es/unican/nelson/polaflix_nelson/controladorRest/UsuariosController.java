@@ -75,8 +75,10 @@ public class UsuariosController {
         if(u.isPresent()){
             //el .get me devuelve la serie de dentro
             if(s.isPresent()){
-                u.get().getPendientes().add(s.get());
-                user.save(u.get());
+                if(!(u.get().getPendientes().contains(s.get()))){
+                    u.get().getPendientes().add(s.get());
+                    user.save(u.get());
+                }
                 mensaje = Map.of("Mensaje", "Operación realizada correctamente");
                 respuesta = ResponseEntity.ok(mensaje);
             }else {
@@ -84,6 +86,7 @@ public class UsuariosController {
             respuesta = new ResponseEntity<Map<String, String>> (mensaje, HttpStatus.NOT_FOUND);
             
             }
+
             
         } else {
              mensaje = Map.of("Mensaje", "Error al encontrar el usuario");

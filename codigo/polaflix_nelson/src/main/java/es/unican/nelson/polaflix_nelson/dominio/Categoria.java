@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class Categoria {
 
+    
     double precio;
     String tipo;
     public double getPrecio() {

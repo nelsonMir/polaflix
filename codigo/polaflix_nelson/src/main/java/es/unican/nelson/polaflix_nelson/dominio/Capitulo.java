@@ -16,23 +16,23 @@ public class Capitulo {
         @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("idCapitulo")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     private Long id;
     
     @JsonProperty("ultimoCapitulo")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     boolean ultimoCapitulo;
 
     @JsonProperty("titulo")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     String titulo;
 
     @JsonProperty("descripcion")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     String descripcion;
 
     @JsonProperty("numeroCapitulo")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     int numeroCapitulo;
 
     @ManyToOne

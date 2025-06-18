@@ -22,37 +22,37 @@ public class Serie {
         @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto incremento en BD con h2
     @JsonProperty("idSerie")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     private Long id;
 
     @JsonProperty("titulo")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     String titulo;
 
     @Embedded
     @JsonProperty("categoria")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     Categoria categoria;
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
     @JsonProperty("temporada")
     @JsonManagedReference  //esto para evitar bucles con las referencias en doble direccion
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     List<Temporada> temporadas;
 
     @JsonProperty("sinopsis")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     String sinopsis;
 
     //se usa el elementColelction ncunado sse mapea un tipo embeebido
     @ElementCollection
     @JsonProperty("creadores")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     protected List<Artista> creadores;
 
     @ElementCollection
     @JsonProperty("actores")
-    @JsonView({Views.VistaSerie.class})
+    @JsonView({Views.VistaSerie.class, Views.VistaUsuario.class})
     protected List<Artista> actores;
     
 
@@ -128,5 +128,38 @@ public class Serie {
 
         return null;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Serie other = (Serie) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (titulo == null) {
+            if (other.titulo != null)
+                return false;
+        } else if (!titulo.equals(other.titulo))
+            return false;
+        return true;
+    }
+
+    
 
 }
