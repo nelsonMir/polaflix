@@ -1,9 +1,9 @@
 <!-- Selector de mes -->
 <div class="selector-mes">
 <div class="control-mes">
-    <div class="flecha-izq"></div>
-    <p>Diciembre 2016</p>
-    <div class="flecha-der"></div>
+    <div class="flecha-izq" (click)="retrocede()"></div>
+    <p>{{mesActual}} {{anioActual}}</p>
+    <div class="flecha-der" (click)="avanza()"></div>
 </div>
 </div>
 
@@ -19,18 +19,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr><td>2/12/2016</td><td>Modern Family</td><td>5x07</td><td class="importe">0.75€</td></tr>
-    <tr><td>2/12/2016</td><td>Modern Family</td><td>5x08</td><td class="importe">0.75€</td></tr>
-    <tr><td>3/12/2016</td><td>IT Crowd</td><td>2x04</td><td class="importe">0.50€</td></tr>
-    <tr><td>3/12/2016</td><td>The Wire</td><td>5x02</td><td class="importe">0.50€</td></tr>
-    <tr><td>4/12/2016</td><td>The Wire</td><td>5x03</td><td class="importe">0.50€</td></tr>
-    <tr><td>5/12/2016</td><td>The Wire</td><td>5x04</td><td class="importe">0.50€</td></tr>
-    <tr><td>6/12/2016</td><td>Modern Family</td><td>5x09</td><td class="importe">0.75€</td></tr>
+        <ng-container *ngFor="let itemFactura of facturaActual?.itemsFactura">
+            <tr><td>{{itemFactura?.fechaVisualizacion}}</td><td>{{itemFactura?.nombreSerie}}</td><td>{{itemFactura?.temporada}}x{{itemFactura?.numCapitulo}}</td><td class="importe">{{itemFactura?.precio}}€</td></tr>
+        </ng-container>
     </tbody>
 </table>
 
 <div class="resumen-factura">
     <div class="etiqueta-total">TOTAL</div>
-    <p>20.00€</p>
+    <p>{{precioTotal}}€</p>
 </div>
 </section>

@@ -18,4 +18,24 @@ export class UsuarioService {
 
     return this.http.get(URL+"usuarios", {params})
   }
+
+  anhadirSerie(idUsuario: number, idSerie: number): Observable<any>{
+
+    
+    return this.http.put(URL+"usuarios/"+idUsuario+"/pendientes/"+idSerie, null)
+  }
+
+  verCapitulo(idUsuario: number, idCapitulo: number): Observable<any>{
+
+    
+    return this.http.put(URL+"usuarios/"+idUsuario+"/verCapitulo/"+idCapitulo, null)
+  }
+
+  getFacturas(idUsuario:number): Observable<any>{
+
+
+    return this.http.get(URL+"usuarios/"+idUsuario+"/facturas")
+
+  }
+
 }

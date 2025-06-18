@@ -2,9 +2,23 @@
 <section class="list-series">
     
 
-    <app-box></app-box>
-    <app-box></app-box>
-    <app-box></app-box>
+    <app-box titulo="Pendientes">
+        <p *ngFor="let serie of usuario?.['series pendientes']">
+            {{ serie?.titulo }}
+        </p>
+    </app-box>
+    
+    <app-box titulo="Empezadas">´
+        <p *ngFor="let serie of usuario?.['series empezadas']">
+            {{ serie?.titulo }}
+        </p>
+    </app-box>
+
+    <app-box titulo="Terminadas">
+        <p *ngFor="let serie of usuario?.['series terminadas']">
+            {{ serie?.titulo }}
+        </p>
+    </app-box>
 </section>
 
 <!-- Banner de anuncios -->
